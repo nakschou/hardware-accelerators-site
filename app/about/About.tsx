@@ -2,9 +2,9 @@ import Image from "next/image";
 import { Github, Linkedin, Twitter } from "lucide-react";
 
 interface Socials {
-  twitter: string;
-  linkedin: string;
-  github: string;
+  twitter?: string;
+  linkedin?: string;
+  github?: string;
 }
 
 interface Person {
@@ -19,7 +19,7 @@ const people: Person[] = [
   {
     name: "Dr. Rajesh Gupta",
     role: "Mentor",
-    image: "/rajesh.jpg?height=400&width=400",
+    image: "/hardware-accelerators-site/rajesh.jpg?height=400&width=400",
     bio: "Founding Director at HDSI. Distinguished Professor at UCSD.",
     socials: {
       linkedin: "https://linkedin.com/in/rajeshgupta4",
@@ -28,7 +28,7 @@ const people: Person[] = [
   {
     name: "Kai Breese",
     role: "De-facto Captain",
-    image: "/kai.jpg?height=400&width=400",
+    image: "/hardware-accelerators-site/kai.jpg?height=400&width=400",
     bio: "[bio]",
     socials: {
       linkedin: "https://linkedin.com/in/kaibreese",
@@ -38,7 +38,7 @@ const people: Person[] = [
   {
     name: "Justin Chou",
     role: "Code Monkey",
-    image: "/justin.jpg?height=400&width=400",
+    image: "/hardware-accelerators-site/justin.jpg?height=400&width=400",
     bio: "[bio]",
     socials: {
       linkedin: "https://www.linkedin.com/in/justintchou/",
@@ -48,7 +48,7 @@ const people: Person[] = [
   {
     name: "Katelyn Abille",
     role: "Figma God",
-    image: "/katelyn.jpg?height=400&width=400",
+    image: "/hardware-accelerators-site/katelyn.jpg?height=400&width=400",
     bio: "[bio]",
     socials: {
       linkedin: "https://linkedin.com/in/katelynmaea",
@@ -58,7 +58,7 @@ const people: Person[] = [
   {
     name: "Lukas Fullner",
     role: "Verilog Enjoyer (somehow)",
-    image: "/lukas.jpg?height=400&width=400",
+    image: "/hardware-accelerators-site/lukas.jpg?height=400&width=400",
     bio: "[bio]",
     socials: {
       linkedin: "https://linkedin.com/in/lukas-fullner-172639284",
