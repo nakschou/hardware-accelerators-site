@@ -19,7 +19,7 @@ const people: Person[] = [
   {
     name: "Dr. Rajesh Gupta",
     role: "Mentor",
-    image: "/placeholder.svg?height=400&width=400",
+    image: "/rajesh.jpg?height=400&width=400",
     bio: "Founding Director at HDSI. Distinguished Professor at UCSD.",
     socials: {
       linkedin: "https://linkedin.com/in/rajeshgupta4",
@@ -28,7 +28,7 @@ const people: Person[] = [
   {
     name: "Kai Breese",
     role: "De-facto Captain",
-    image: "/placeholder.svg?height=400&width=400",
+    image: "/kai.jpg?height=400&width=400",
     bio: "[bio]",
     socials: {
       linkedin: "https://linkedin.com/in/kaibreese",
@@ -38,7 +38,7 @@ const people: Person[] = [
   {
     name: "Justin Chou",
     role: "Code Monkey",
-    image: "/placeholder.svg?height=400&width=400",
+    image: "/justin.jpg?height=400&width=400",
     bio: "[bio]",
     socials: {
       linkedin: "https://www.linkedin.com/in/justintchou/",
@@ -48,7 +48,7 @@ const people: Person[] = [
   {
     name: "Katelyn Abille",
     role: "Figma God",
-    image: "/placeholder.svg?height=400&width=400",
+    image: "/katelyn.jpg?height=400&width=400",
     bio: "[bio]",
     socials: {
       linkedin: "https://linkedin.com/in/katelynmaea",
@@ -58,7 +58,7 @@ const people: Person[] = [
   {
     name: "Lukas Fullner",
     role: "Verilog Enjoyer (somehow)",
-    image: "/placeholder.svg?height=400&width=400",
+    image: "/lukas.jpg?height=400&width=400",
     bio: "[bio]",
     socials: {
       linkedin: "https://linkedin.com/in/lukas-fullner-172639284",
@@ -73,7 +73,7 @@ export default function AboutUs() {
       <section className="relative flex items-center justify-center py-16 bg-zinc-900">
         <div className="container mx-auto px-4">
           <h1 className="text-3xl font-bold text-center mb-8">
-            About Our Research Team
+            About Our Team
           </h1>
 
           {/* Mentor Section */}
