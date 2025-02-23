@@ -29,7 +29,7 @@ const people: Person[] = [
     name: "Kai Breese",
     role: "De-facto Captain",
     image: "/hardware-accelerators-site/kai.jpg?height=400&width=400",
-    bio: "[bio]",
+    bio: "Exp. June 2025",
     socials: {
       linkedin: "https://linkedin.com/in/kaibreese",
       github: "https://github.com/ninjakaib",
@@ -39,7 +39,7 @@ const people: Person[] = [
     name: "Justin Chou",
     role: "Code Monkey",
     image: "/hardware-accelerators-site/justin.jpg?height=400&width=400",
-    bio: "[bio]",
+    bio: "Exp. December 2025",
     socials: {
       linkedin: "https://www.linkedin.com/in/justintchou/",
       github: "https://github.com/nakschou",
@@ -49,7 +49,7 @@ const people: Person[] = [
     name: "Katelyn Abille",
     role: "Figma God",
     image: "/hardware-accelerators-site/katelyn.jpg?height=400&width=400",
-    bio: "[bio]",
+    bio: "Exp. June 2025",
     socials: {
       linkedin: "https://linkedin.com/in/katelynmaea",
       github: "https://github.com/katemae",
@@ -59,7 +59,7 @@ const people: Person[] = [
     name: "Lukas Fullner",
     role: "Verilog Enjoyer (somehow)",
     image: "/hardware-accelerators-site/lukas.jpg?height=400&width=400",
-    bio: "[bio]",
+    bio: "Exp. June 2025",
     socials: {
       linkedin: "https://linkedin.com/in/lukas-fullner-172639284",
       github: "https://github.com/Lwizard3",
@@ -72,10 +72,6 @@ export default function AboutUs() {
     <>
       <section className="relative flex items-center justify-center py-16 bg-zinc-900">
         <div className="container mx-auto px-4">
-          <h1 className="text-3xl font-bold text-center mb-8">
-            About Our Team
-          </h1>
-
           {/* Mentor Section */}
           <div className="mb-12">
             <h2 className="text-2xl font-semibold mb-4">Our Mentor</h2>
