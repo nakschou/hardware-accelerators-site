@@ -65,14 +65,16 @@ export default function InfoPanel() {
             <ReactMarkdown
               components={{
                 img: ({ src, alt }) => (
-                  <div className="relative w-full h-64">
-                    <Image
-                      src={src || ""}
-                      alt={alt || ""}
-                      fill
-                      className="rounded-lg object-cover"
-                    />
-                  </div>
+                  <p className="mb-4 text-gray-800 leading-relaxed">
+                    <span className="block relative w-full h-64">
+                      <Image
+                        src={src || ""}
+                        alt={alt || ""}
+                        fill
+                        className="rounded-lg object-cover"
+                      />
+                    </span>
+                  </p>
                 ),
                 a: ({ children, href }) => (
                   <a href={href} className="text-blue-600 hover:text-blue-800">

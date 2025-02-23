@@ -6,12 +6,10 @@ import Footer from "./components/Footer";
 export default function Page() {
   return (
     <div className="min-h-screen bg-black text-white">
-      <Header />
       <main>
         <Hero />
         <InfoPanel />
       </main>
-      <Footer />
     </div>
   );
 }
