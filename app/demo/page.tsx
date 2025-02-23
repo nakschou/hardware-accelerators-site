@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 export default function HuggingFaceDemo() {
   return (
     <div className="min-h-screen w-full bg-black pt-16 overflow-x-hidden">
