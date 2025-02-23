@@ -37,7 +37,7 @@ export default function HuggingFaceDemo() {
             <Button
               variant="outline"
               size="icon"
-              className="absolute top-16 right-4 z-10 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
+              className="absolute top-16 right-4 z-10 dark:bg-neutral-800 dark:text-gray-200 dark:hover:bg-gray-700"
               onClick={() => setOpen(true)}
             >
               <InfoIcon className="h-4 w-4" />
@@ -62,8 +62,8 @@ export default function HuggingFaceDemo() {
             <DialogDescription className="dark:text-neutral-300">
               This demo shows our hardware accelerator in action. We have used
               the MNIST dataset to train a simple convolutional neural network
-              to classify handwritten digits. The model is compared to our
-              baseline PyTorch implementation, then is run on our hardware
+              to classify handwritten digits. The model is first run on our,
+              "ground truth" PyTorch implementation, then is run on our hardware
               simulator. You can experiment with different data types and
               multipliers to see how the hardware accelerator performs.
             </DialogDescription>
