@@ -66,7 +66,8 @@ export default function HuggingFaceDemo() {
               &ldquo;ground truth&rdquo; PyTorch implementation, then is run on
               our hardware simulator. You can experiment with different data
               types and multipliers to see how the hardware accelerator
-              performs.
+              performs. Please be aware that the accelerator is not complete and
+              the results are not representative of the final product.
             </DialogDescription>
           </DialogHeader>
         </DialogContent>

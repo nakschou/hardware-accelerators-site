@@ -2,36 +2,77 @@
 
 _Kai Breese · Justin Chou · Katelyn Abille · Lukas Fullner_
 
-![Next Generation Chip Architecture](/images/chip-architecture.jpg)
-
-_Next-generation chip architecture visualization_
+![](/hardware-accelerators-site/chip.svg)
 
 ## Introduction
 
-As modern artificial intelligence (AI) systems grow in scale and complexity, their computational processes require increasingly large amounts of energy. Notably, ChatGPT required an estimated 564 MWh per day as of February 2023. In comparison, the cost of two days nearly amounts to the total 1,287 MWh used throughout the training phase, highlighting that inference is a major long-term cost [^1]. Similar trends appear in other large-scale models, with Google reporting that 60% of its ML energy usage is dedicated to inference [^2]. These concerns extend beyond cost, as the environmental impact of large-scale AI computation grows. Addressing these challenges requires new hardware solutions that optimize energy efficiency without sacrificing performance.
+As modern artificial intelligence (AI) systems grow in scale and complexity, their computational processes require increasingly large amounts of energy. Notably, ChatGPT required an estimated 564 MWh per day as of February 2023. In comparison, the cost of two days nearly amounts to the total 1,287 MWh used throughout the training phase, highlighting that inference is a major long-term cost.
 
-Addressing this challenge, we aim to investigate a new approach by building on the existing linear-complexity multiplication (lmul) algorithm developed by Luo and Sun [^3], which achieves high precision while reducing computational overhead. Our advancements suggest that lmul could play a critical role in optimizing neural network efficiency. By leveraging lmul, we aim to design a hardware accelerator that optimizes floating-point operations, improving both energy efficiency and computational speed in neural network inference.
+The central operation behind AI operations today is floating-point (fp) multiplication — any advancements in efficiency for this algorithm would increase efficiency across the board in the AI world. We recently found a paper by Luo and Sun outlining a classic speed-for-accuracy trade-off that does fp multiplication in linear time rather than quadratic (O(n^2)). In other words, it promises high efficiency gains while claiming the loss in accuracy is minimal enough not to affect outputs.
 
-To achieve this, we will focus exclusively on PyRTL for development and expand our systolic array beyond the original 2 × 2 design for more efficient floating-point operations. Additionally, we will implement hardware activation units for machine learning functions, such as ReLU and Sigmoid, and benchmark our design against traditional floating-point multipliers. To assess real-world feasibility, we will run machine learning models on our processor and evaluate lmul's performance within an ONNX-based workflow. A comprehensive testing suite will be developed to measure performance metrics and optimize hyperparameters using the generated data. By systematically analyzing our model's efficiency with our data science background, we aim to refine our design for maximum energy savings and computational accuracy.
+Our project implements both the industry standard IEEE-754 algorithm and lmul algorithm in hardware. Specifically, we've trained a classification model (MNIST) and will be running it through both hardware simulators to validate the paper's claims and measure the energy savings.
 
-### Key Improvements
+## Methods: Building an Efficient AI Hardware Accelerator
 
-- **Performance:** 50% faster than previous generation
+### The Core Innovation: L-Mul Algorithm
 
-- **Optimization:** Specifically tuned for machine learning workloads
+Traditional neural networks rely heavily on floating-point multiplication, which is computationally expensive and energy-intensive. Our key innovation is implementing the L-Mul algorithm (by Luo and Sun), which approximates floating-point multiplication using primarily addition operations. This significantly reduces computational complexity while maintaining accuracy.
 
-- **Efficiency:** Reduced power consumption by 30%
+The algorithm works by:
 
-- **Thermal Management:** Significantly improved thermal efficiency
+1. Taking two floating-point numbers
+2. Breaking them into their sign, exponent, and mantissa components
+3. Using a clever mathematical approximation to replace the expensive mantissa multiplication with a simpler addition operation
+4. Recombining the components to produce the final result
 
----
+This approach maintains high precision while requiring fewer computational resources than traditional floating-point multiplication.
 
-#### 📥 Technical Documentation
+### Hardware Architecture: The Systolic Array
 
-For a comprehensive analysis of our findings and detailed technical specifications, download our full technical report.
+At the heart of our accelerator is a systolic array - a grid of processing elements (PEs) that efficiently perform matrix multiplication, which is crucial for neural network operations.
 
-[Download Full Report →]()
+![Systolic Array Architecture](/hardware-accelerators-site/images/design-flow.png)
 
-[^1]: de Vries, A. (2023). The growing energy footprint of artificial intelligence. Joule, 7(10), 2191-2194.
-[^2]: Patterson, D., Gonzalez, J., Hölzle, U., Le, Q., Liang, C., Munguia, L. M., ... & Dean, J. (2022). The Carbon Footprint of Machine Learning Training Will Plateau, Then Shrink. Computer, 55(7), 18-28.
-[^3]: Luo, H., & Sun, W. (2024). Addition is All You Need for Energy-efficient Language Models. arXiv preprint arXiv:2410.00907.
+The systolic array works like an assembly line:
+
+- Input data flows in from the top and left
+- Each PE multiplies its inputs (using our L-Mul algorithm) and adds to its running sum
+- Results flow downward and rightward to neighboring PEs
+- The final results accumulate at the bottom
+
+This design allows for:
+
+- Parallel processing
+- Efficient data reuse
+- Reduced memory bandwidth requirements
+- Scalable performance
+
+### Processing Element Design
+
+Each processing element (PE) in our systolic array is carefully designed to optimize the L-Mul algorithm implementation.
+
+![Processing Element Architecture](/hardware-accelerators-site/images/pe.png)
+
+Key components include:
+
+- Input/weight registers for data storage
+- Control logic for timing and data flow
+- The L-Mul multiplication unit
+- An accumulator for running sums
+- Pipeline registers for efficient operation
+
+### Software Integration
+
+To make our hardware practical for real-world use, we developed:
+
+1. A compiler that converts standard neural network models (in ONNX format) to instructions our hardware can execute
+2. A simulation framework to test and validate performance
+3. Testing tools to measure accuracy, speed, and energy efficiency
+
+This infrastructure allows AI developers to easily run their models on our accelerator without needing to understand the underlying hardware details.
+
+Our implementation uses PyRTL (Python Register Transfer Level) for hardware description, making it easier to prototype and test different design configurations while maintaining the option to later convert to actual hardware through Verilog generation.
+
+## Results & Conclusion
+
+[still in progress]

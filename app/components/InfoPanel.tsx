@@ -64,18 +64,43 @@ export default function InfoPanel() {
           <article className="prose prose-lg prose-gray mx-auto">
             <ReactMarkdown
               components={{
-                img: ({ src, alt }) => (
-                  <p className="mb-4 text-gray-800 leading-relaxed">
-                    <span className="block relative w-full h-64">
-                      <Image
-                        src={src || ""}
-                        alt={alt || ""}
-                        fill
-                        className="rounded-lg object-cover"
-                      />
-                    </span>
-                  </p>
-                ),
+                img: ({ src, alt }) => {
+                  // Parse size from alt text if present (e.g. [small] or [large])
+                  const sizeMatch = alt?.match(/\[(small|medium|large)\]/i);
+                  const size = (sizeMatch?.[1]?.toLowerCase() || "medium") as
+                    | "small"
+                    | "medium"
+                    | "large";
+                  const cleanAlt = alt
+                    ?.replace(/\[(small|medium|large)\]/i, "")
+                    .trim();
+
+                  const aspectRatios = {
+                    small: "aspect-[4/3] md:aspect-[3/2]",
+                    medium: "aspect-[16/9] md:aspect-[2/1]",
+                    large: "aspect-[16/9] md:aspect-[21/9]",
+                  } as const;
+
+                  return (
+                    <div className="my-8">
+                      <div className={`relative w-full ${aspectRatios[size]}`}>
+                        <Image
+                          src={src || ""}
+                          alt={cleanAlt || ""}
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
+                          className="rounded-lg object-contain"
+                          priority
+                        />
+                      </div>
+                      {cleanAlt && (
+                        <p className="mt-2 text-center text-sm text-gray-600 italic">
+                          {cleanAlt}
+                        </p>
+                      )}
+                    </div>
+                  );
+                },
                 a: ({ children, href }) => (
                   <a href={href} className="text-blue-600 hover:text-blue-800">
                     {children}
@@ -109,9 +134,35 @@ export default function InfoPanel() {
                 ul: ({ children }) => (
                   <ul className="list-disc pl-6 mb-4 space-y-2">{children}</ul>
                 ),
+                ol: ({ children }) => (
+                  <ol className="list-decimal pl-6 mb-4 space-y-2">
+                    {children}
+                  </ol>
+                ),
                 li: ({ children }) => (
                   <li className="text-gray-800">{children}</li>
                 ),
+                sup: ({ children }) => (
+                  <sup className="text-sm">
+                    <a
+                      href={`#citation-${children}`}
+                      className="text-blue-600 hover:text-blue-800 no-underline"
+                    >
+                      {children}
+                    </a>
+                  </sup>
+                ),
+                div: ({ children, className }) => {
+                  if (className === "footnotes") {
+                    return (
+                      <div className="mt-16 pt-8 border-t border-gray-200">
+                        <h2 className="text-2xl font-bold mb-4">References</h2>
+                        {children}
+                      </div>
+                    );
+                  }
+                  return <div>{children}</div>;
+                },
               }}
             >
               {content}
