@@ -61,13 +61,11 @@ export default function HuggingFaceDemo() {
             </DialogTitle>
             <DialogDescription className="dark:text-neutral-300">
               This demo shows our hardware accelerator in action. We have used
-              the MNIST dataset to train a simple convolutional neural network
-              to classify handwritten digits. The model is first run on our
-              &ldquo;ground truth&rdquo; PyTorch implementation, then is run on
-              our hardware simulator. You can experiment with different data
-              types and multipliers to see how the hardware accelerator
-              performs. Please be aware that the accelerator is not complete and
-              the results are not representative of the final product.
+              the MNIST dataset to train a simple MLP to classify handwritten
+              digits. The model compares the output (and speed) of the hardware
+              accelerator with the standard IEEE floating point multiplication
+              algorithm. You can experiment with different data types and
+              multipliers to see how the hardware accelerator performs.
             </DialogDescription>
           </DialogHeader>
         </DialogContent>

@@ -11,9 +11,9 @@ export default function Header() {
   const navRef = useRef<HTMLDivElement>(null);
 
   const getPageFromPath = useCallback((path: string) => {
-    if (path === "/") return "home";
-    if (path === "/demo") return "demo";
-    if (path === "/team") return "team";
+    if (path === "/") return "Home";
+    if (path === "/demo") return "Demo";
+    if (path === "/team") return "Team";
     return path.slice(1);
   }, []);
 
@@ -52,14 +52,14 @@ export default function Header() {
 
   const handleNavigation = (page: string) => {
     setActivePage(page);
-    const path = page === "home" ? "/" : `/${page}`;
+    const path = page === "Home" ? "/" : `/${page.toLowerCase()}`;
     router.push(path);
   };
 
-  const pages = ["home", "demo", "team"];
+  const pages = ["Home", "Demo", "Team"];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center px-6 sm:px-6 py-2 sm:py-3 backdrop-blur-sm bg-zinc-900/90 border-b border-zinc-800">
+    <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center px-6 sm:px-6 py-2 sm:py-3 backdrop-blur-sm bg-black/90 border-zinc-800">
       <nav ref={navRef} className="relative flex items-center">
         <div
           className="absolute h-[2px] bg-violet-500 transition-all duration-200 ease-in-out"
@@ -76,8 +76,8 @@ export default function Header() {
             onClick={() => handleNavigation(page)}
             className={`relative px-3 py-0.5 sm:py-1 text-sm sm:text-base font-medium transition-colors min-w-[4.5rem] text-center ${
               activePage === page
-                ? "text-violet-400"
-                : "text-zinc-400 hover:text-violet-300"
+                ? "text-violet-600"
+                : "text-zinc-500 hover:text-violet-700"
             }`}
           >
             {page}

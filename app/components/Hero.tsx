@@ -5,7 +5,8 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { FileText, Github } from "lucide-react";
 
-const TECHNICAL_REPORT_URL = "https://example.com/technical-report";
+const TECHNICAL_REPORT_URL =
+  "https://github.com/nakschou/artifact-directory-template/blob/main/report.pdf";
 const GITHUB_REPO_URL = "https://github.com/ninjakaib/hardware-accelerators";
 
 function FloatingPaths({ position }: { position: number }) {
@@ -63,7 +64,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative h-screen flex items-center justify-center overflow-hidden bg-black">
+    <section className="relative h-screen flex items-center justify-center overflow-hidden bg-zinc-900">
       <div className="absolute inset-0">
         <FloatingPaths position={1} />
         <FloatingPaths position={-1} />

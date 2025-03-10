@@ -3,7 +3,7 @@ import InfoPanel from "./components/InfoPanel";
 
 export default function Page() {
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-zinc-900 text-white">
       <main>
         <Hero />
         <InfoPanel />

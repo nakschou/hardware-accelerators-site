@@ -1,7 +1,9 @@
 "use client";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { TableComponents } from "./TableRenderer";
 
 export default function InfoPanel() {
   const [content, setContent] = useState("");
@@ -63,6 +65,7 @@ export default function InfoPanel() {
         {!isLoading && !error && (
           <article className="prose prose-lg prose-gray mx-auto">
             <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
               components={{
                 img: ({ src, alt }) => {
                   // Parse size from alt text if present (e.g. [small] or [large])
@@ -122,7 +125,7 @@ export default function InfoPanel() {
                   </h3>
                 ),
                 h4: ({ children }) => (
-                  <h4 className="text-2xl font-bold mt-6 mb-3 text-black">
+                  <h4 className="text-xl font-bold mt-6 mb-3 text-black">
                     {children}
                   </h4>
                 ),
@@ -163,6 +166,12 @@ export default function InfoPanel() {
                   }
                   return <div>{children}</div>;
                 },
+                table: TableComponents.table,
+                thead: TableComponents.thead,
+                tbody: TableComponents.tbody,
+                tr: TableComponents.tr,
+                th: TableComponents.th,
+                td: TableComponents.td,
               }}
             >
               {content}
