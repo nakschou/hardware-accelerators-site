@@ -4,11 +4,10 @@ _Kai Breese · Justin Chou · Katelyn Abille · Lukas Fullner_
 
 ![One of our hardware components](/hardware-accelerators-site/images/adder_pipelined.png)
 
-### Table of Contents
 1. [Introduction](#introduction)
 2. [Background](#background)
 
-## Introduction {#introduction}
+## Introduction
 
 As modern artificial intelligence (AI) systems grow in scale and complexity, their computational processes require increasingly large amounts of energy. Notably, ChatGPT required an estimated 564 MWh per day as of February 2023. In comparison, the cost of two days nearly amounts to the total 1,287 MWh used throughout the training phase, highlighting that inference is a major long-term cost.
 
@@ -16,7 +15,7 @@ The central operation behind AI operations today is floating-point (fp) multipli
 
 Our project implements both the industry standard IEEE-754 algorithm and L-Mul algorithm in hardware. Specifically, we've trained a classification model (MNIST) and will be running it through both hardware simulators to validate the paper's claims and measure the energy savings.
 
-## Background {#background}
+## Background
 
 ### Floating-Point Numbers
 
@@ -28,7 +27,7 @@ Most modern machine learning models use FP32 (32-bit) or mixed-precision formats
 
 Traditional floating-point multiplication is computationally expensive. To multiply two floating-point numbers, the sign bits are XORed, the exponents are added, the mantissas are multiplied (the most expensive step), and the result is normalized and rounded. Altogether, the algorithm is relatively computationally expensive at a complexity of O(n^2). In large neural networks with billions of parameters, these costs accumulate rapidly.
 
-p = (s₁ ⊕ s₂) × 2^(e₁+e₂-2b) × (1+m₁+m₂+m₁×m₂)z
+p = (s₁ ⊕ s₂) × 2^(e₁+e₂-2b) × (1+m₁+m₂+m₁×m₂)
 
 ## Methods: Building an Efficient AI Hardware Accelerator
 
@@ -40,14 +39,10 @@ The linear-complexity multiplication (L-Mul) algorithm, proposed by Luo and Sun,
 
 The key insight of L-Mul is that the most expensive operation, mantissa multiplication, can be approximated using a term L(M). The L function is defined as:
 
-L(M) = { 
-
-    M, if M ≤ 3
-
-    3, if M = 4
-
-    4, if M > 4
-
+L(M) = {
+M, if M ≤ 3
+3, if M = 4
+4, if M > 4
 },
 
 where M is the number of mantissa bits.
