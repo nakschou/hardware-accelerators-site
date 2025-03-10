@@ -18,16 +18,13 @@ Our project implements both the industry standard IEEE-754 algorithm and L-Mul a
 
 The IEEE-754 standard defines the representation and behaviors of floating-point numbers in most systems. A floating-point number at its core is represented in three sections of bits: the single sign bit, followed by the exponent bits and mantissa bits (also known as the significand). The most significant bit (MSB) is always the sign bit, determining is the number is positive or negative. The exponent scales the number by a power of two, and lastly the least significant bits (LSB), representing the mantissa, provide the fractional part of the number.
 
-Most modern machine learning models use FP32 (32-bit) or mixed-precision formats like BF16 (16-bit) to represent parameters and activations. As a result, the speed of these models relies heavily on the speed at which we can conduct these floating-point operations. Our work aims to use the L-mul algorithm to speed it up.
+Most modern machine learning models use FP32 (32-bit) or mixed-precision formats like BF16 (16-bit) to represent parameters and activations. As a result, the speed of these models relies heavily on the speed at which we can conduct these floating-point operations. Our work aims to use the L-Mul algorithm to speed it up.
 
 ### The Floating-Point Multiplication Challenge
 
 Traditional floating-point multiplication is computationally expensive. To multiply two floating-point numbers, the sign bits are XORed, the exponents are added, the mantissas are multiplied (the most expensive step), and the result is normalized and rounded. Altogether, the algorithm is relatively computationally expensive at a complexity of O(n^2). In large neural networks with billions of parameters, these costs accumulate rapidly.
 
-$$
-    p = (s_1 \oplus s_2) \times 2^{\textstyle (e_1+e_2-2b)} \times (1+m_1+m_2+m_1 \times m_2)
-$$
-<!-- p = (s₁ ⊕ s₂) × 2^(e₁+e₂-2b) × (1+m₁+m₂+m₁×m₂)$ -->
+p = (s₁ ⊕ s₂) × 2^(e₁+e₂-2b) × (1+m₁+m₂+m₁×m₂)z
 
 ## Methods: Building an Efficient AI Hardware Accelerator
 
@@ -49,11 +46,7 @@ where M is the number of mantissa bits.
 
 The multiplication algorithm then becomes:
 
-$$
-(s_1 \oplus s_2) \times 2^{\textstyle (e_1+e_2-b)} \times (1+m_1+m_2+2^{-L(M)})
-$$
-
-<!-- (s₁ ⊕ s₂) × 2^(e₁+e₂-b) × (1+m₁+m₂+2^(-L(M))) -->
+(s₁ ⊕ s₂) × 2^(e₁+e₂-b) × (1+m₁+m₂+2^(-L(M)))
 
 This elegant simplification eliminates the need for costly multiplication units, significantly reducing power consumption and silicon area while preserving the numerical properties needed for neural network computations.
 
@@ -61,7 +54,7 @@ This elegant simplification eliminates the need for costly multiplication units,
 
 #### High Level Architecture
 
-We are designing and optimizing on three levels to create an efficient and performant accelerator. First is the register transfer level; this is the lowest level hardware design of basic components like adders, multipliers, multiplexers, and instruction decoders. The key implementation here is the L-mul unit for approximating floating-point multiplication.
+We are designing and optimizing on three levels to create an efficient and performant accelerator. First is the register transfer level; this is the lowest level hardware design of basic components like adders, multipliers, multiplexers, and instruction decoders. The key implementation here is the L-Mul unit for approximating floating-point multiplication.
 
 The design combines low-level components into higher-level abstractions—configurable systolic arrays, accumulator memory buffers, and vectorized activation function modules—implemented as flexible class "containers" that serve as hardware placeholders until simulation time. This approach enables dynamic control over data flow patterns, timing signals, and hardware/software boundaries. The resulting accelerator architecture draws inspiration from Google TPU, featuring minimal control logic, a large matrix engine with attached accumulators and memory, and a connected activation function module. This configuration, combined with DiP data flow, creates a FIFO-free design that reduces latency and power consumption.
 
@@ -91,7 +84,7 @@ Our VLIW (Very Long Instruction Word) approach simplifies hardware control logic
 
 #### PyRTL Development Environment
 
-All of our major hardware implementations for this project (standard floating-point multiplier, L-mul multiplier, floating-point adder, systolic array and its processing elements, and the accumulator buffers for tiled matrix operations) were done in PyRTL (Mirza). This approach proved to be most viable for us because it allowed us to utilize Pythonic syntax for our hardware description. The framework is rich with built-in features that smoothened out our development process. We relied heavily on immediate representation throughout our pipeline building process due to its ability to simulate and optimize our work. It also allowed us to work in our comfort language as we built out our utility libraries, testing suite, visualizations, and miscellaneous logic control in a language we're comfortable with (Clow).
+All of our major hardware implementations for this project (standard floating-point multiplier, L-Mul multiplier, floating-point adder, systolic array and its processing elements, and the accumulator buffers for tiled matrix operations) were done in PyRTL (Mirza). This approach proved to be most viable for us because it allowed us to utilize Pythonic syntax for our hardware description. The framework is rich with built-in features that smoothened out our development process. We relied heavily on immediate representation throughout our pipeline building process due to its ability to simulate and optimize our work. It also allowed us to work in our comfort language as we built out our utility libraries, testing suite, visualizations, and miscellaneous logic control in a language we're comfortable with (Clow).
 
 We developed a comprehensive stack to validate our hardware design. The first element of that was custom data types, which we used for accurate simulation of the different floating-point formats. We also accelerated simulations through C code generation, which was automatic through PyRTL. Finally, we had a full pytest framework for validating the outputs of our functions.
 
@@ -114,8 +107,8 @@ Our hardware implementations were all measured on 45nm technology. As shown in t
 | Design               |  **fp8** |           |           | **bf16** |           |           | **fp32** |           |           |
 | -------------------- | -------: | --------: | --------: | -------: | --------: | --------: | -------: | --------: | --------: |
 |                      | **Area** | **Power** | **Delay** | **Area** | **Power** | **Delay** | **Area** | **Power** | **Delay** |
-| L-mul Comb.          |  112.784 |   0.11116 |      0.36 |  255.626 |  0.252634 |      0.48 |  702.506 |  0.531981 |      0.55 |
-| L-mul Pipelined      |  348.726 |  0.582629 |      0.51 |  688.674 |  0.928291 |       0.6 |  1529.23 |   1.30025 |      0.67 |
+| L-Mul Comb.          |  112.784 |   0.11116 |      0.36 |  255.626 |  0.252634 |      0.48 |  702.506 |  0.531981 |      0.55 |
+| L-Mul Pipelined      |  348.726 |  0.582629 |      0.51 |  688.674 |  0.928291 |       0.6 |  1529.23 |   1.30025 |      0.67 |
 | Multiplier Comb.     |  347.396 |   1.05533 |      1.29 |  1067.72 |   7.46015 |      1.94 |  6311.91 |   133.398 |      2.85 |
 | Multiplier Pipelined |  487.578 |  0.761612 |      0.72 |   1169.6 |   1.65408 |      1.05 |  6457.42 |   9.31073 |      1.62 |
 | Multiplier Stage 2   |   162.26 |  0.161324 |      0.55 |  552.482 |   1.18352 |      0.91 |   4149.6 |   29.2743 |      1.46 |
@@ -139,8 +132,8 @@ To evaluate the loss in precision over the course of an entire model, we trained
 | Baseline   | Float32     | Float32         | 97.81        |
 | Baseline   | Float8      | BF16            | 97.43        |
 | Baseline   | BF16        | BF16            | 97.46        |
-| L-mul      | Float8      | BF16            | 96.89        |
-| L-mul      | BF16        | BF16            | 97.37        |
+| L-Mul      | Float8      | BF16            | 96.89        |
+| L-Mul      | BF16        | BF16            | 97.37        |
 
 When using BF16 for both weights and activations, the L-Mul implementation achieves 97.37% accuracy, only 0.09 percentage points lower than the baseline with identical data types (97.46%). This remarkably small difference would be imperceptible in most real-world applications. When using the more aggressive Float8 format for weights with BF16 activations, we observed a slightly larger accuracy gap of 0.54 percentage points (96.89% vs 97.43%). Even in this more challenging scenario, the L-Mul implementation maintains strong performance, with both approaches showing only modest reductions from the full-precision Float32 baseline (97.81%).
 
