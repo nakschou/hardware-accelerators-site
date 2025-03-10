@@ -5,10 +5,10 @@ _Kai Breese · Justin Chou · Katelyn Abille · Lukas Fullner_
 ![One of our hardware components](/hardware-accelerators-site/images/adder_pipelined.png)
 
 ### Table of Contents
-1. [Introduction](#introduction) <br>
-2. [Background](#background) <br>
+1. [Introduction](#introduction)
+2. [Background](#background)
 
-## Introduction <a name="introduction"></a>
+## Introduction {#introduction}
 
 As modern artificial intelligence (AI) systems grow in scale and complexity, their computational processes require increasingly large amounts of energy. Notably, ChatGPT required an estimated 564 MWh per day as of February 2023. In comparison, the cost of two days nearly amounts to the total 1,287 MWh used throughout the training phase, highlighting that inference is a major long-term cost.
 
@@ -16,7 +16,7 @@ The central operation behind AI operations today is floating-point (fp) multipli
 
 Our project implements both the industry standard IEEE-754 algorithm and L-Mul algorithm in hardware. Specifically, we've trained a classification model (MNIST) and will be running it through both hardware simulators to validate the paper's claims and measure the energy savings.
 
-## Background <a name="background"></a>
+## Background {#background}
 
 ### Floating-Point Numbers
 
@@ -40,19 +40,21 @@ The linear-complexity multiplication (L-Mul) algorithm, proposed by Luo and Sun,
 
 The key insight of L-Mul is that the most expensive operation, mantissa multiplication, can be approximated using a term L(M). The L function is defined as:
 
-L(M) = { <br>
-M, if M ≤ 3 <br>
-3, if M = 4 <br>
-4, if M > 4 <br>
+L(M) = { 
+
+    M, if M ≤ 3
+
+    3, if M = 4
+
+    4, if M > 4
+
 },
 
 where M is the number of mantissa bits.
 
 The multiplication algorithm then becomes:
 
-$ (s_1 \oplus s_2) \times 2^{\textstyle (e_1+e_2-b)} \times (1+m_1+m_2+2^{-L(M)}) $
-
-<!-- (s₁ ⊕ s₂) × 2^(e₁+e₂-b) × (1+m₁+m₂+2^(-L(M))) -->
+(s₁ ⊕ s₂) × 2^(e₁+e₂-b) × (1+m₁+m₂+2^(-L(M)))
 
 This elegant simplification eliminates the need for costly multiplication units, significantly reducing power consumption and silicon area while preserving the numerical properties needed for neural network computations.
 
