@@ -10,7 +10,7 @@ As modern artificial intelligence (AI) systems grow in scale and complexity, the
 
 The central operation behind AI operations today is floating-point (fp) multiplication — any advancements in efficiency for this algorithm would increase efficiency across the board in the AI world. We recently found a paper by Luo and Sun outlining a classic speed-for-accuracy trade-off that does fp multiplication in linear time rather than quadratic (O(n^2)). In other words, it promises high efficiency gains while claiming the loss in accuracy is minimal enough not to affect outputs.
 
-Our project implements both the industry standard IEEE-754 algorithm and lmul algorithm in hardware. Specifically, we've trained a classification model (MNIST) and will be running it through both hardware simulators to validate the paper's claims and measure the energy savings.
+Our project implements both the industry standard IEEE-754 algorithm and L-Mul algorithm in hardware. Specifically, we've trained a classification model (MNIST) and will be running it through both hardware simulators to validate the paper's claims and measure the energy savings.
 
 ## Background
 
@@ -24,7 +24,10 @@ Most modern machine learning models use FP32 (32-bit) or mixed-precision formats
 
 Traditional floating-point multiplication is computationally expensive. To multiply two floating-point numbers, the sign bits are XORed, the exponents are added, the mantissas are multiplied (the most expensive step), and the result is normalized and rounded. Altogether, the algorithm is relatively computationally expensive at a complexity of O(n^2). In large neural networks with billions of parameters, these costs accumulate rapidly.
 
-p = (s₁ ⊕ s₂) × 2^(e₁+e₂-2b) × (1+m₁+m₂+m₁×m₂)
+$$
+    p = (s_1 \oplus s_2) \times 2^{\textstyle (e_1+e_2-2b)} \times (1+m_1+m_2+m_1 \times m_2)
+$$
+<!-- p = (s₁ ⊕ s₂) × 2^(e₁+e₂-2b) × (1+m₁+m₂+m₁×m₂)$ -->
 
 ## Methods: Building an Efficient AI Hardware Accelerator
 
@@ -46,7 +49,11 @@ where M is the number of mantissa bits.
 
 The multiplication algorithm then becomes:
 
-(s₁ ⊕ s₂) × 2^(e₁+e₂-b) × (1+m₁+m₂+2^(-L(M)))
+$$
+(s_1 \oplus s_2) \times 2^{\textstyle (e_1+e_2-b)} \times (1+m_1+m_2+2^{-L(M)})
+$$
+
+<!-- (s₁ ⊕ s₂) × 2^(e₁+e₂-b) × (1+m₁+m₂+2^(-L(M))) -->
 
 This elegant simplification eliminates the need for costly multiplication units, significantly reducing power consumption and silicon area while preserving the numerical properties needed for neural network computations.
 
