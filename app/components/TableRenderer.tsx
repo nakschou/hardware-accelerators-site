@@ -1,4 +1,4 @@
-import React, { useState, ReactNode } from "react";
+import React, { useState } from "react";
 import { Components } from "react-markdown";
 
 const MarkdownTableRenderer = () => {
@@ -36,13 +36,13 @@ const MarkdownTableRenderer = () => {
           .map((cell: string) => cell.trim());
       });
 
-      return { headers, rows, error: null };
-    } catch (error) {
-      return { headers: [], rows: [], error: "Failed to parse markdown table" };
+      return { headers, rows };
+    } catch {
+      return { headers: [], rows: [] };
     }
   };
 
-  const { headers, rows, error } = parseMarkdownTable(markdownInput);
+  const { headers, rows } = parseMarkdownTable(markdownInput);
 
   return (
     <div className="flex flex-col space-y-4 p-4 max-w-4xl mx-auto">
@@ -64,40 +64,36 @@ const MarkdownTableRenderer = () => {
       <div className="flex flex-col">
         <h2 className="text-xl font-bold mb-2">Rendered Table:</h2>
 
-        {error ? (
-          <div className="text-red-500">{error}</div>
-        ) : (
-          <div className="overflow-x-auto border border-gray-300 rounded">
-            <table className="min-w-full divide-y divide-gray-300">
-              <thead className="bg-gray-100">
-                <tr>
-                  {headers.map((header: string, index: number) => (
-                    <th
-                      key={index}
-                      className="px-6 py-3 text-left text-sm font-semibold text-gray-900"
+        <div className="overflow-x-auto border border-gray-300 rounded">
+          <table className="min-w-full divide-y divide-gray-300">
+            <thead className="bg-gray-100">
+              <tr>
+                {headers.map((header: string, index: number) => (
+                  <th
+                    key={index}
+                    className="px-6 py-3 text-left text-sm font-semibold text-gray-900"
+                  >
+                    {header}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200 bg-white">
+              {rows.map((row: string[], rowIndex: number) => (
+                <tr key={rowIndex}>
+                  {row.map((cell: string, cellIndex: number) => (
+                    <td
+                      key={cellIndex}
+                      className="px-6 py-4 text-sm text-gray-500"
                     >
-                      {header}
-                    </th>
+                      {cell}
+                    </td>
                   ))}
                 </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200 bg-white">
-                {rows.map((row: string[], rowIndex: number) => (
-                  <tr key={rowIndex}>
-                    {row.map((cell: string, cellIndex: number) => (
-                      <td
-                        key={cellIndex}
-                        className="px-6 py-4 text-sm text-gray-500"
-                      >
-                        {cell}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
