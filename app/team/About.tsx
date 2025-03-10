@@ -29,7 +29,7 @@ const people: Person[] = [
     name: "Kai Breese",
     role: "Hardware Guy",
     image: "/hardware-accelerators-site/kai.jpg?height=400&width=400",
-    bio: "Exp. June 2025",
+    bio: "Exp. March 2025",
     socials: {
       linkedin: "https://linkedin.com/in/kaibreese",
       github: "https://github.com/ninjakaib",
