@@ -4,9 +4,6 @@ _Kai Breese · Justin Chou · Katelyn Abille · Lukas Fullner_
 
 ![One of our hardware components](/hardware-accelerators-site/images/adder_pipelined.png)
 
-1. [Introduction](#introduction)
-2. [Background](#background)
-
 ## Introduction
 
 As modern artificial intelligence (AI) systems grow in scale and complexity, their computational processes require increasingly large amounts of energy. Notably, ChatGPT required an estimated 564 MWh per day as of February 2023. In comparison, the cost of two days nearly amounts to the total 1,287 MWh used throughout the training phase, highlighting that inference is a major long-term cost.
